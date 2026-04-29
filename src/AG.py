@@ -1,17 +1,21 @@
 from typing import list
 from src.Individuo import Individuo
+from TSP import TSP
 import random
 
 class AG:
     
-    def __init__(self, tamanho_pop, taxa_cruzamento, taxa_mutacao, operador):
+    def __init__(self, tamanho_pop, taxa_cruzamento, taxa_mutacao, operador, tsp_instancia):
         self.tamanho_pop = tamanho_pop
         self.taxa_cruzamento = taxa_cruzamento
         self.taxa_mutacao = taxa_mutacao
         self.operador = operador
+        self.tsp = tsp_instancia
+        
+        self.populacao = self.iniciar_populacao()
     
-    def torneio(self, populacao, k=3):
-        competidores = random.sample(populacao, k)
+    def torneio(self, k=3):
+        competidores = random.sample(self.populacao, k)
         vencedor = min(competidores, key=lambda ind: ind.fitness)
         
         return vencedor
@@ -22,6 +26,9 @@ class AG:
         return pontos[0], pontos[1]
         
     def OX(self, pai1, pai2, tamanho_rota):
+        pai1 = pai1.rota
+        pai2 = pai2.rota
+        
         inicio, fim = self.sorteia_corte(tamanho_rota)
         filho = [-1] * tamanho_rota #cria o vetor filho
         
@@ -38,6 +45,31 @@ class AG:
                 filho[posicao_filho] = cidade
                 posicao_filho = (posicao_filho + 1) % tamanho_rota #avança o indice
             
-            (posicao_pai2 + 1) % tamanho_rota #avança sempre para testar novos indices
+            posicao_pai2 = (posicao_pai2 + 1) % tamanho_rota #avança sempre para testar novos indices
         
-        return filho
+        return Individuo(filho, self.tsp)
+    
+    def mutacao(self, individuo):
+        rota = individuo.rota
+        tamanho = len(rota)
+        
+        for i in range(tamanho):
+            r = random.random()
+            if r <= self.taxa_mutacao:
+                j = random.randint(0, tamanho - 1)
+                rota[i], rota[j] = rota[j], rota[i]
+                
+        individuo.rota = rota
+        individuo.fitness = individuo.calculo_fitness(self.tsp)
+       
+    def iniciar_populacao(self):
+        pop = []
+        
+        n_cidades = self.tsp.get_n_cidades()
+        cidades = list(range(n_cidades))
+        
+        for _ in range(self.tamanho_pop):
+            rota = random.sample(cidades, n_cidades)
+            pop.append(Individuo(rota, self.tsp))
+        
+        return pop

@@ -26,3 +26,6 @@ class TPS:
     def exibir(self):
         for linha in self.matriz_distancia:
             print(linha)
+    
+    def get_n_cidades(self):
+        return len(self.matriz_distancia)
