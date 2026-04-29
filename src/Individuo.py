@@ -1,5 +1,5 @@
 from typing import List
-import TSP_data
+import TSP
 
 class Individuo:
     def __init__(self, rota, tsp):
@@ -20,3 +20,6 @@ class Individuo:
         distancia_total += tsp.calcular_distancia(cidade_inicial, cidade_final)
         
         return distancia_total
+    
+    
+        
