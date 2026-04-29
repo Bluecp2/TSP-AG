@@ -49,6 +49,8 @@ class AG:
         
         return Individuo(filho, self.tsp)
     
+    #implementar novo metodo de cruzamento
+    
     def mutacao(self, individuo):
         rota = individuo.rota
         tamanho = len(rota)
@@ -73,3 +75,9 @@ class AG:
             pop.append(Individuo(rota, self.tsp))
         
         return pop
+
+    def evolucao(self):
+        nova_geracao = []
+        
+        melhor_atual = min(self.populacao, key=lambda ind: ind.fitness)
+        nova_geracao.append(Individuo)
