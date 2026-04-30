@@ -111,3 +111,14 @@ class AG:
             if random.random() <= self.taxa_cruzamento:
                 if self.operador == "OX":
                     filho = self.OX(pai1, pai2, len(pai1.rota))
+                elif self.operador == "PMX":
+                    filho = self.PMX(pai1, pai2, len(pai1.rota))
+                else:
+                    return 0
+            else:
+                filho = Individuo(pai1.rota[:], self.tsp)
+                
+            self.mutacao(filho)
+            nova_geracao.append(filho)
+        
+        self.populacao = nova_geracao
