@@ -49,7 +49,29 @@ class AG:
         
         return Individuo(filho, self.tsp)
     
-    #implementar novo metodo de cruzamento
+    def PMX(self, pai1_obj, pai2_obj, tamanho_rota):
+        pai1, pai2 = pai1_obj.rota, pai2_obj.rota
+        filho = [-1] * tamanho_rota
+        
+        inicio, fim = self.sorteia_corte(tamanho_rota)
+        
+        filho[inicio:fim + 1] = pai1[inicio:fim + 1]
+        segmento_set = set(filho[inicio:fim+1])
+        
+        mapping = {}
+        for k in range(inicio, fim + 1):
+            mapping[pai1[k]] = pai2[k]
+            mapping[pai2[k]] = pai1[k]
+
+        for i in range(tamanho_rota):
+            if i < inicio or i > fim:
+                cidade = pai2[i]
+                while cidade in segmento_set:
+                    cidade = mapping[cidade]
+                
+                filho[i] = cidade
+        
+        return Individuo(filho, self.tsp)
     
     def mutacao(self, individuo):
         rota = individuo.rota
@@ -80,4 +102,12 @@ class AG:
         nova_geracao = []
         
         melhor_atual = min(self.populacao, key=lambda ind: ind.fitness)
-        nova_geracao.append(Individuo)
+        nova_geracao.append(Individuo(melhor_atual.rota[:], self.tsp))
+        
+        while len(nova_geracao) < self.tamanho_pop:
+            pai1 = self.torneio(self.populacao)
+            pai2 = self.torneio(self.populacao)
+            
+            if random.random() <= self.taxa_cruzamento:
+                if self.operador == "OX":
+                    filho = self.OX(pai1, pai2, len(pai1.rota))
