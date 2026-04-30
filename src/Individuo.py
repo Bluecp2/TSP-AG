@@ -21,5 +21,4 @@ class Individuo:
         
         return distancia_total
     
-    
         

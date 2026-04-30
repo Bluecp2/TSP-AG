@@ -105,8 +105,8 @@ class AG:
         nova_geracao.append(Individuo(melhor_atual.rota[:], self.tsp))
         
         while len(nova_geracao) < self.tamanho_pop:
-            pai1 = self.torneio(self.populacao)
-            pai2 = self.torneio(self.populacao)
+            pai1 = self.torneio()
+            pai2 = self.torneio()
             
             if random.random() <= self.taxa_cruzamento:
                 if self.operador == "OX":
