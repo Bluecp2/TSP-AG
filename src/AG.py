@@ -59,13 +59,13 @@ class AG:
         
         mapping = {}
         for k in range(inicio, fim + 1):
-            mapping[pai1[k]] = pai2[k]
+            mapping[pai1[k]] = pai2[k]  #mapeia as cidades usando p1 como chave e p2 como valor
 
         for i in range(tamanho_rota):
             if i < inicio or i > fim:
                 cidade = pai2[i]
-                while cidade in segmento_set:
-                    cidade = mapping[cidade]
+                while cidade in segmento_set: #roda o set para verificar se nao esta repetido
+                    cidade = mapping[cidade] #mapeia as repetidas
                 
                 filho[i] = cidade
         
