@@ -4,7 +4,7 @@ from src.Experimento import Experimento
 def main(): 
     caminho_instancia = os.path.join("data", "/home/gabriel/Documentos/GitHub/TSP-AG/dados/att48_d.txt")
     
-    num_execucoes = 20
+    num_execucoes = 50
     num_geracoes = 200
     
     print("="*120)
