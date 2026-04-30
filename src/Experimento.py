@@ -10,11 +10,15 @@ from src.AG import AG
 from src.TSP import TSP
 
 class Experimento:
-    def __init__(self, caminho_instancia, n_execucoes=20, n_geracoes=20):
+    def __init__(self, caminho_instancia, n_execucoes=20, n_geracoes=20, pasta_saida="saidas"):
         self.tsp = TSP(caminho_instancia)
         self.n_execucoes = n_execucoes
         self.n_geracoes = n_geracoes
+        self.pasta_saida = pasta_saida
         
+        if not os.path.exists(self.pasta_saida):
+            os.makedirs(self.pasta_saida)
+            
         # Fatores definidos no roteiro
         self.fatores = {
             'populacao' : [50, 100],
@@ -87,7 +91,9 @@ class Experimento:
             })
 
         df_tabela = pd.DataFrame(self.dados_tabela)
-        df_tabela.to_csv("resultados_fatorial_completo.csv", index=False, sep=';')
+        
+        caminho_csv = os.path.join(self.pasta_saida, "resultados_fatorial_completo.csv")
+        df_tabela.to_csv(caminho_csv, index=False, sep=';')
         return df_tabela
     
     def gerar_graficos(self):
@@ -96,13 +102,13 @@ class Experimento:
         plt.figure(figsize=(12, 6))
         sns.boxplot(x='Config', y='Fitness', hue='Operador', data=df_box)
         plt.title("Boxplot: Dispersão por Configuração")
-        plt.savefig("boxplot_final.png")
+        plt.savefig(os.path.join(self.pasta_saida, "boxplot_final.png"))
         plt.show()
 
         plt.figure(figsize=(12, 6))
         sns.barplot(x='Config', y='Fitness', data=df_box, capsize=.1)
         plt.title("Média e Desvio Padrão por Configuração")
-        plt.savefig("barras_media.png")
+        plt.savefig(os.path.join(self.pasta_saida, "barras_media.png"))
         plt.show()
 
         plt.figure(figsize=(12, 6))
@@ -112,5 +118,5 @@ class Experimento:
         plt.xlabel("Geração")
         plt.ylabel("Melhor Fitness")
         plt.legend(loc='upper right', ncol=2)
-        plt.savefig("convergencia_final.png")
+        plt.savefig(os.path.join(self.pasta_saida, "convergencia_final.png"))
         plt.show()

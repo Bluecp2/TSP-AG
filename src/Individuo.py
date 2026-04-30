@@ -1,5 +1,5 @@
-from typing import List
-import TSP
+
+from src.TSP import TSP
 
 class Individuo:
     def __init__(self, rota, tsp):

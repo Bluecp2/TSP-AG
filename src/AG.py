@@ -1,6 +1,5 @@
-from typing import list
 from src.Individuo import Individuo
-from TSP import TSP
+from src.TSP import TSP
 import random
 
 class AG:
@@ -61,7 +60,6 @@ class AG:
         mapping = {}
         for k in range(inicio, fim + 1):
             mapping[pai1[k]] = pai2[k]
-            mapping[pai2[k]] = pai1[k]
 
         for i in range(tamanho_rota):
             if i < inicio or i > fim:

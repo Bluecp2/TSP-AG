@@ -1,4 +1,4 @@
-class TPS:
+class TSP:
     def __init__(self, caminho):
         self.matriz_distancia  = self._carregar_matriz(caminho)
         
