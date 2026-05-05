@@ -87,8 +87,21 @@ class Experimento:
 
     def rodar(self):
         """Gerencia o loop principal do experimento e compila os resultados."""
-        combinacoes = list(product(*self.fatores.values()))
-        coluna_fatores = list(self.fatores.keys())
+        coluna_fatores = ['operador', 'populacao', 'taxa_cruzamento', 'taxa_mutacao']
+
+        combinacoes = []
+
+        base = list(product(
+            self.fatores['populacao'],
+            self.fatores['taxa_cruzamento'],
+            self.fatores['taxa_mutacao']
+        ))
+
+        for valores in base:
+            combinacoes.append(('OX', *valores))
+
+        for valores in base:
+            combinacoes.append(('PMX', *valores))
         
         print(f"Iniciando Teste Fatorial: {len(combinacoes)} configs x {self.n_execucoes} execuções.")
         
